@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useNavigate, Link } from "react-router-dom";
 import AuthLayout from "./AuthLayout";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 export default function SignUpForm() {
   const [email, setEmail] = useState("");
@@ -14,17 +14,18 @@ export default function SignUpForm() {
   const [error, setError] = useState("");
   const { signUp } = useAuth();
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await signUp(email, password, fullName);
-      toast({
-        title: "Account created successfully",
-        description: "Please check your email to verify your account.",
-        duration: 5000,
-      });
+      toast(
+        "Account created successfully",
+        {
+          description: "Please check your email to verify your account.",
+          duration: 5000,
+        }
+      );
       navigate("/login");
     } catch (error) {
       setError("Error creating account");
